@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AJAX Request Example</title>
+</head>
+<body>
+  <h1>AJAX Request Example</h1>
+  <label for="search">search: </label>
+  <input name="search" type="search" id="search"/>
+  <br>
+  <button id="request-button">Make API Request</button>
+  <br>
+
+  <div id="response"></div>
+
+  <script>
+    const requestButton = document.getElementById('request-button');
+    const responseDiv = document.getElementById('response');
+    const search = document.getElementById("search")
+
+
+    // If you want to send the search input value as a query string
+    requestButton.addEventListener('click', () => {
+      fetch('/api', {
+         method: 'POST', 
+         body:JSON.stringify({ text: search.value }),
+         headers: {
+            'Content-Type': 'application/json'
+         }
+      }).then(response => response.json())
+        .then(data => {
+          responseDiv.innerText = JSON.stringify(data);
+        })
+        .catch(error => {
+          console.error(error);
+          responseDiv.innerText = 'Error: ' + error.message;
+        });
+    });
+  </script>
+</body>
+</html>
